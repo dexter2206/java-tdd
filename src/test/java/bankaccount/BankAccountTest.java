@@ -11,12 +11,21 @@ import static org.junit.Assert.*;
 @RunWith(JUnitParamsRunner.class)
 public class BankAccountTest {
 
-    @Parameters({"2", "100", "500"})
+    @Parameters(method="getParams")
     @Test
     public void whenDepositingMoneyBalanceChanges(double amount) {
         BankAccount account = new BankAccount();
         account.deposit(amount);
         assertEquals(amount, account.getBalance(), 1e-10);
+    }
+
+    @Parameters({"1000,100,1100", "2100,20,2120"})
+    @Test
+    public void whenDepositingToNonemptyAccountBalanceChanges(double initialAmount, double depositAmount,
+                                                              double expectedAmount ) {
+        BankAccount account = new BankAccount(initialAmount);
+        account.deposit(depositAmount);
+        assertEquals(expectedAmount, account.getBalance(), 1e-10);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -125,5 +134,9 @@ public class BankAccountTest {
     @Test(expected = IllegalArgumentException.class)
     public void whenConstructingWithNegativeAmountThrowsException() {
         new BankAccount(-1000);
+    }
+
+    public String[] getParams() {
+        return new String[] {"200", "300", "400"};
     }
 }
