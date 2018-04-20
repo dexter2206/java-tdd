@@ -18,6 +18,12 @@
             <artifactId>JUnitParams</artifactId>
             <version>0.4.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>2.0.2-beta</version>
+        </dependency>
+
     </dependencies>
 
     <build>
