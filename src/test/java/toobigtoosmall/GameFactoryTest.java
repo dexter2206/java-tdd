@@ -13,7 +13,10 @@ import org.mockito.junit.MockitoRule;
 import toobigtosmall.Game;
 import toobigtosmall.GameFactory;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -49,5 +52,18 @@ public class GameFactoryTest {
         Game game = factory.newGame(lower, upper);
         assertEquals(lower+randNum, game.getNumberToGuess());
         verify(random, times(1)).nextInt(upper-lower);
+    }
+
+    @Test
+    public void whenCreatingNewGameChoosesNumberAtRandomMultipleCals() {
+        GameFactory factory = new GameFactory(random);
+        when(random.nextInt(100)).thenReturn(50).thenReturn(99).thenReturn(2);
+        List<Game> games = Arrays.stream(new int []{15, 30, 40})
+                .mapToObj(lower -> factory.newGame(lower, lower + 100))
+                .collect(Collectors.toList());
+        verify(random, times(3)).nextInt(100);
+        assertEquals(65, games.get(0).getNumberToGuess());
+        assertEquals(129, games.get(1).getNumberToGuess());
+        assertEquals(42, games.get(2).getNumberToGuess());
     }
 }
