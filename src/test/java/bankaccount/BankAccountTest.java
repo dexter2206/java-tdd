@@ -4,6 +4,7 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import static org.junit.Assert.*;
 
@@ -23,6 +24,7 @@ public class BankAccountTest {
     @Test
     public void whenDepositingToNonemptyAccountBalanceChanges(double initialAmount, double depositAmount,
                                                               double expectedAmount ) {
+
         BankAccount account = new BankAccount(initialAmount);
         account.deposit(depositAmount);
         assertEquals(expectedAmount, account.getBalance(), 1e-10);

@@ -1,5 +1,6 @@
 package sieve;
 
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
@@ -7,23 +8,27 @@ import java.util.List;
 
 public class Sieve {
 
-    public static List<Integer> findPrimes(int limit) {
-        return findPrimes(limit, new ArrayList<>());
+    public static List<Integer> findPrimes(int bound) {
+        return findPrimes(bound, new ArrayList<>());
+
     }
 
-    public static List<Integer> findPrimes(int limit, List<Integer> primes) {
-        boolean[] flags = new boolean[limit+1];
-        int j;
-        for(int i = 2; i < flags.length-1; i++) {
+    public static List<Integer> findPrimes(int bound, List<Integer> output) {
+        if(bound < 0) {
+            throw new IllegalArgumentException("Bound has to be nonnegative.");
+        }
+        if(bound < 3) {
+            return output;
+        }
+        boolean[] flags = new boolean[bound];
+        for(int i = 2; i < bound; i++) {
             if(!flags[i]) {
-                primes.add(i);
-                j = 2 * i;
-                while(j < flags.length) {
+                output.add(i);
+                for(int j = 2 * i; j < bound; j=j+i) {
                     flags[j] = true;
-                    j += i;
                 }
             }
         }
-        return primes;
+        return output;
     }
 }
